@@ -142,6 +142,12 @@ public class Property extends UdbProperty {
           .setDescription("The maximum number of connection to glue metastore.")
           .build();
 
+  public static final Property MAX_GLUE_FETCH_PARTITIONS =
+      new Builder(Name.MAX_GLUE_FETCH_PARTITIONS)
+          .setDefaultValue("256")
+          .setDescription("The maximum number of partitions are fetched with getPartitions.")
+          .build();
+
   public static final Property GLUE_REGION =
       new Builder(Name.GLUE_REGION)
         .setDefaultValue("")
@@ -197,6 +203,7 @@ public class Property extends UdbProperty {
   public static final class Name {
     // AWS Glue related properties
     public static final String MAX_GLUE_CONNECTION = "max.connection";
+    public static final String MAX_GLUE_FETCH_PARTITIONS = "max.partitions";
     public static final String GLUE_REGION = "aws.region";
     public static final String CATALOG_ID = "aws.catalog.id";
     public static final String AWS_GLUE_ACCESS_KEY = "aws.accesskey";
