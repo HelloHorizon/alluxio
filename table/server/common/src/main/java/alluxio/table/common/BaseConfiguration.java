@@ -58,7 +58,7 @@ public abstract class BaseConfiguration<T extends BaseProperty> {
   }
 
   /**
-   * Return the int value of this property , or the default value if the property is not defined.
+   * Return the int value of this property.
    *
    * @param property the property to get the int value
    * @return the int value of property
@@ -71,6 +71,23 @@ public abstract class BaseConfiguration<T extends BaseProperty> {
     } catch (NumberFormatException e) {
       throw new RuntimeException(
           ExceptionMessage.KEY_NOT_INTEGER.getMessage(rawValue, property));
+    }
+  }
+
+  /**
+   * Return the boolean value of this property.
+   *
+   * @param property the property to get the boolean value
+   * @return the boolean value of property
+   */
+  public boolean getBoolean(T property) {
+    String rawValue = get(property);
+
+    try {
+      return Boolean.parseBoolean(rawValue);
+    } catch (Exception e) {
+      throw new RuntimeException(
+          ExceptionMessage.KEY_NOT_BOOLEAN.getMessage(rawValue, property));
     }
   }
 

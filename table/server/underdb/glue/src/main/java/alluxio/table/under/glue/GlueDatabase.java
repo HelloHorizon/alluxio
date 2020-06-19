@@ -33,6 +33,7 @@ import com.amazonaws.auth.AWSCredentialsProvider;
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.auth.DefaultAWSCredentialsProviderChain;
+import com.amazonaws.auth.InstanceProfileCredentialsProvider;
 import com.amazonaws.services.glue.AWSGlueAsync;
 import com.amazonaws.services.glue.AWSGlueAsyncClientBuilder;
 import com.amazonaws.services.glue.model.AWSGlueException;
@@ -181,6 +182,11 @@ public class GlueDatabase implements UnderDatabase {
           config.get(Property.AWS_GLUE_ACCESS_KEY),
           config.get(Property.AWS_GLUE_SECRET_KEY)));
     }
+
+    if (config.getBoolean(Property.USE_INSTANCE_CREDENTIALS)) {
+      return InstanceProfileCredentialsProvider.getInstance();
+    }
+
     return DefaultAWSCredentialsProviderChain.getInstance();
   }
 

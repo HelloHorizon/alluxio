@@ -173,6 +173,12 @@ public class Property extends UdbProperty {
           .setDescription("The secret key to access the aws glue.")
           .build();
 
+  public static final Property USE_INSTANCE_CREDENTIALS =
+      new Builder(Name.USE_INSTANCE_CREDENTIALS)
+          .setDefaultValue("false")
+          .setDescription("Credentials provider loads credentials from EC2 IMS.")
+          .build();
+
   /**
    * @return the name of alluxio.table.under.glue.Property
    */
@@ -208,5 +214,6 @@ public class Property extends UdbProperty {
     public static final String CATALOG_ID = "aws.catalog.id";
     public static final String AWS_GLUE_ACCESS_KEY = "aws.accesskey";
     public static final String AWS_GLUE_SECRET_KEY = "aws.secretkey";
+    public static final String USE_INSTANCE_CREDENTIALS = "ec2.credentials";
   }
 }
