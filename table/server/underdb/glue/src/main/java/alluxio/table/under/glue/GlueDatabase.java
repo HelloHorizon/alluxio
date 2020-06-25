@@ -177,6 +177,7 @@ public class GlueDatabase implements UnderDatabase {
     //TODO(shouwei): add compelete authentication method for glue udb
     if (!config.get(Property.AWS_GLUE_ACCESS_KEY).isEmpty()
         && !config.get(Property.AWS_GLUE_SECRET_KEY).isEmpty()) {
+      LOG.info("Creating aws glue client with Secret key.");
       return new AWSStaticCredentialsProvider(
         new BasicAWSCredentials(
           config.get(Property.AWS_GLUE_ACCESS_KEY),
@@ -184,6 +185,7 @@ public class GlueDatabase implements UnderDatabase {
     }
 
     if (config.getBoolean(Property.USE_INSTANCE_CREDENTIALS)) {
+      LOG.info("Creating aws glue client with EC2 credential.");
       return InstanceProfileCredentialsProvider.getInstance();
     }
 
