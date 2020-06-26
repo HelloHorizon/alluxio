@@ -179,6 +179,18 @@ public class Property extends UdbProperty {
           .setDescription("Credentials provider loads credentials from EC2 IMS.")
           .build();
 
+  public static final Property USE_AWS_IAM_ROLE =
+      new Builder(Name.USE_AWS_IAM_ROLE)
+          .setDefaultValue("false")
+          .setDescription("Credentials provider loads credentials from ARN.")
+          .build();
+
+  public static final Property AWS_GLUE_IAM_ROLE =
+      new Builder(Name.AWS_GLUE_IAM_ROLE)
+      .setDefaultValue("")
+      .setDescription("AWS IAM Role.")
+      .build();
+
   /**
    * @return the name of alluxio.table.under.glue.Property
    */
@@ -214,6 +226,8 @@ public class Property extends UdbProperty {
     public static final String CATALOG_ID = "aws.catalog.id";
     public static final String AWS_GLUE_ACCESS_KEY = "aws.accesskey";
     public static final String AWS_GLUE_SECRET_KEY = "aws.secretkey";
-    public static final String USE_INSTANCE_CREDENTIALS = "ec2.credentials";
+    public static final String USE_INSTANCE_CREDENTIALS = "use.aws.ec2.credentials";
+    public static final String USE_AWS_IAM_ROLE = "use.aws.iam";
+    public static final String AWS_GLUE_IAM_ROLE = "aws.iam";
   }
 }

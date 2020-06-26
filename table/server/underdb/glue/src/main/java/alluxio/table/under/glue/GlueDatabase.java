@@ -34,6 +34,7 @@ import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.auth.DefaultAWSCredentialsProviderChain;
 import com.amazonaws.auth.InstanceProfileCredentialsProvider;
+import com.amazonaws.auth.STSAssumeRoleSessionCredentialsProvider;
 import com.amazonaws.services.glue.AWSGlueAsync;
 import com.amazonaws.services.glue.AWSGlueAsyncClientBuilder;
 import com.amazonaws.services.glue.model.AWSGlueException;
@@ -160,14 +161,6 @@ public class GlueDatabase implements UnderDatabase {
       LOG.warn("GlueDatabase: Please setup the AWS region.");
     }
 
-    if (config.get(Property.AWS_GLUE_ACCESS_KEY).isEmpty()) {
-      LOG.warn("GlueDatabase: Please setup the AWS access key id.");
-    }
-
-    if (config.get(Property.AWS_GLUE_SECRET_KEY).isEmpty()) {
-      LOG.warn("GlueDatabase: Please setup the AWS access secret key.");
-    }
-
     asyncClientBuilder.setCredentials(getAWSCredentialsProvider(config));
 
     return asyncClientBuilder.build();
@@ -177,7 +170,7 @@ public class GlueDatabase implements UnderDatabase {
     //TODO(shouwei): add compelete authentication method for glue udb
     if (!config.get(Property.AWS_GLUE_ACCESS_KEY).isEmpty()
         && !config.get(Property.AWS_GLUE_SECRET_KEY).isEmpty()) {
-      LOG.info("Creating aws glue client with Secret key.");
+      LOG.debug("Creating aws glue client with Secret key.");
       return new AWSStaticCredentialsProvider(
         new BasicAWSCredentials(
           config.get(Property.AWS_GLUE_ACCESS_KEY),
@@ -185,8 +178,15 @@ public class GlueDatabase implements UnderDatabase {
     }
 
     if (config.getBoolean(Property.USE_INSTANCE_CREDENTIALS)) {
-      LOG.info("Creating aws glue client with EC2 credential.");
+      LOG.debug("Creating aws glue client with EC2 credential.");
       return InstanceProfileCredentialsProvider.getInstance();
+    }
+
+    if (config.getBoolean(Property.USE_AWS_IAM_ROLE)) {
+      LOG.debug("Creating aws glue client with IAM role.");
+      return new STSAssumeRoleSessionCredentialsProvider
+          .Builder(config.get(Property.AWS_GLUE_IAM_ROLE), "alluxio-session")
+          .build();
     }
 
     return DefaultAWSCredentialsProviderChain.getInstance();

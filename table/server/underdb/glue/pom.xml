@@ -31,6 +31,7 @@
         <build.path>${project.parent.parent.parent.parent.basedir}/build</build.path>
         <glue.version>1.11.602</glue.version>
         <aws.java.jdk.version>1.11.475</aws.java.jdk.version>
+        <aws.auth.jdk.version>1.11.602</aws.auth.jdk.version>
         <hive-metastore.version>2.2.0</hive-metastore.version>
     </properties>
 
@@ -46,6 +47,12 @@
             <groupId>com.amazonaws</groupId>
             <artifactId>aws-java-sdk-core</artifactId>
             <version>${aws.java.jdk.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.amazonaws</groupId>
+            <artifactId>aws-java-sdk-sts</artifactId>
+            <version>${aws.auth.jdk.version}</version>
         </dependency>
 
         <dependency>
@@ -67,6 +74,12 @@
                     <artifactId>protobuf-java</artifactId>
                 </exclusion>
             </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>com.aliyun</groupId>
+            <artifactId>aliyun-java-sdk-core</artifactId>
+            <version>3.4.0</version>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
 
