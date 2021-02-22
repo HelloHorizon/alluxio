@@ -157,7 +157,7 @@ public final class UfsFileWriteHandler extends AbstractWriteHandler<UfsFileWrite
     context.setUfsResource(ufsResource);
     UnderFileSystem ufs = ufsResource.get();
     CreateOptions createOptions = CreateOptions.defaults(ServerConfiguration.global())
-        .setCreateParent(true)
+        .setCreateParent(false)
         .setOwner(createUfsFileOptions.getOwner()).setGroup(createUfsFileOptions.getGroup())
         .setMode(new Mode((short) createUfsFileOptions.getMode()));
     if (createUfsFileOptions.hasAcl()) {
