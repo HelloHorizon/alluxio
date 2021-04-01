@@ -24,6 +24,7 @@ import alluxio.exception.ExceptionMessage;
 import alluxio.exception.PreconditionMessage;
 import alluxio.exception.status.UnavailableException;
 import alluxio.grpc.CompleteFilePOptions;
+import alluxio.grpc.DeletePOptions;
 import alluxio.metrics.MetricKey;
 import alluxio.metrics.MetricsSystem;
 import alluxio.resource.CloseableResource;
@@ -183,6 +184,13 @@ public class AlluxioFileOutStream extends FileOutStream {
         try (CloseableResource<FileSystemMasterClient> masterClient = mContext
             .acquireMasterClientResource()) {
           masterClient.get().completeFile(mUri, optionsBuilder.build());
+        }
+      } else if (mCanceled) {
+        // Delete the incomplete file if close with cancel request
+        try (CloseableResource<FileSystemMasterClient> masterClient = mContext
+            .acquireMasterClientResource()) {
+          DeletePOptions deleteOptions = DeletePOptions.newBuilder().build();
+          masterClient.get().delete(mUri, deleteOptions);
         }
       }
     } catch (Throwable e) { // must catch Throwable
