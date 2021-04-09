@@ -187,6 +187,7 @@ public class AlluxioFileOutStream extends FileOutStream {
         }
       } else if (mCanceled) {
         // Delete the incomplete file if close with cancel request
+        LOG.info("Try to delete the incomplete file with master {}.", mContext.getMasterAddress());
         try (CloseableResource<FileSystemMasterClient> masterClient = mContext
             .acquireMasterClientResource()) {
           DeletePOptions deleteOptions = DeletePOptions.newBuilder().build();
